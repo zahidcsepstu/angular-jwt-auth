@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {Observable} from "rxjs";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { Observable } from "rxjs";
 
-const AUTH_API = 'http://localhost:8080/api/auth/';
+const AUTH_API = 'https://tassistant.azurewebsites.net/users/';
 const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+  headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': ' Basic Q2xpZW50SWQ6Q2xpZW50U2VjcmV0' })
 };
 
 @Injectable({
@@ -13,9 +13,9 @@ const httpOptions = {
 export class AuthService {
 
   constructor(private http: HttpClient) { }
-  login(username: string, password: string): Observable<any> {
-    return this.http.post(AUTH_API + 'signin', {
-      username,
+  login(email: string, password: string): Observable<any> {
+    return this.http.post(AUTH_API + 'login', {
+      email,
       password
     }, httpOptions);
   }
