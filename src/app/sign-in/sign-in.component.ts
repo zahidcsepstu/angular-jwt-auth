@@ -27,7 +27,7 @@ export class SignInComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.tokenStorage.getToken()) {
+    if (this.tokenStorage.getJwtToken()) {
       this.isLoggedIn = true;
       this.roles = this.tokenStorage.getUser().roles;
       if (this.isLoggedIn) {
@@ -36,29 +36,25 @@ export class SignInComponent implements OnInit {
     }
   }
 
-  // onSubmit(): void {
-  //   const {username, password} = this.form;
-  //   this.authService.login(username, password).subscribe(
-  //     data => {
-  //       this.tokenStorage.saveToken(data.token);
-  //       this.tokenStorage.saveUser(data);
-  //       this.isLoginFailed = false;
-  //       this.isLoggedIn = true;
-  //       this.roles = this.tokenStorage.getUser().roles;
-  //       this.reloadPage();
-  //     },
-  //     err => {
-  //       this.errorMessage = err.error.message;
-  //       this.isLoginFailed = true;
-  //     }
-  //   );
-  // }
+  onSubmit(): void {
+    const {username, password} = this.form;
+    this.authService.login(username, password).subscribe(
+      data => {
+        this.tokenStorage.saveToken(data.token, data.refreshToken);
+        this.tokenStorage.saveUser(data);
+        this.isLoginFailed = false;
+        this.isLoggedIn = true;
+        this.roles = this.tokenStorage.getUser().roles;
+        this.reloadPage();
+      },
+      err => {
+        this.errorMessage = err.error.message;
+        this.isLoginFailed = true;
+      }
+    );
+  }
 
   reloadPage(): void {
     window.location.reload();
-  }
-
-  onSubmit() {
-    return false;
   }
 }

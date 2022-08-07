@@ -1,3 +1,7 @@
 <p>home works!</p>
 
-<button>Logout</button>
+<button (click)="getTasks()">Get Tasks</button>
+
+<button (click)="logoutUser()" >Log Out</button>
+
+<pre>{{taskList|json}}</pre>

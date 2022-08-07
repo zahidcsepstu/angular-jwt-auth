@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 
-const TOKEN_KEY = 'auth-token';
+const JWT_TOKEN_KEY = 'auth-token';
+const REFRESH_TOKEN_KEY = 'refresh-token';
 const USER_KEY = 'auth-user';
 
 @Injectable({
@@ -14,13 +15,19 @@ export class TokenStorageService {
     window.sessionStorage.clear();
   }
 
-  public saveToken(token: string): void {
-    window.sessionStorage.removeItem(TOKEN_KEY);
-    window.sessionStorage.setItem(TOKEN_KEY, token);
+  public saveToken(jwtToken: string, refreshToken:string): void {
+    window.sessionStorage.removeItem(JWT_TOKEN_KEY);
+    window.sessionStorage.removeItem(refreshToken);
+    window.sessionStorage.setItem(JWT_TOKEN_KEY, jwtToken);
+    window.sessionStorage.setItem(REFRESH_TOKEN_KEY, refreshToken);
   }
 
-  public getToken(): string | null {
-    return window.sessionStorage.getItem(TOKEN_KEY);
+  public getJwtToken(): string | null {
+    return window.sessionStorage.getItem(JWT_TOKEN_KEY);
+  }
+
+  public getRefreshToken(): string | null {
+    return window.sessionStorage.getItem(REFRESH_TOKEN_KEY);
   }
 
   public saveUser(user: any): void {
