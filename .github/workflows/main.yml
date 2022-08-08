@@ -32,6 +32,7 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: Run a multi-line script
         run: |
+          export FIREBASE_TOKEN=1//0g3yVb6mL5UwvCgYIARAAGBASNwF-L9IrXgMprABBHuF8EXiNslnyNVweW07oHvR1qIqkg7zP_rgL7NQMK1ubiEPwbJlkNc7I1Yo
           npm install -g @angular/cli
           npm install
           ng deploy
