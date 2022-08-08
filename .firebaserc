@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "angular-jwt-auth-zahid": {
+      "hosting": {
+        "my-app": [
+          "angular-jwt-auth-zahid"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "angular-jwt-auth-zahid"
+  }
+}
