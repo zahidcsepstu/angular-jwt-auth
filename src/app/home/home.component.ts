@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {UserService} from "../_services/user.service";
 import {AuthService} from "../_services/auth.service";
 import {TokenStorageService} from "../_services/token-storage.service";
+import {NgxSpinnerService} from "ngx-spinner";
 
 @Component({
   selector: 'app-home',
@@ -14,10 +15,13 @@ export class HomeComponent implements OnInit {
   constructor(
     private userService: UserService,
     private authService: AuthService,
-    private tokenService: TokenStorageService) {
+    private tokenService: TokenStorageService,
+    private spinner: NgxSpinnerService
+  ) {
   }
 
-  ngOnInit(): void {
+  ngOnInit():
+    void {
   }
 
   getTasks() {
@@ -31,5 +35,12 @@ export class HomeComponent implements OnInit {
     this.authService.logout().subscribe(data => {
       this.tokenService.signOut();
     });
+  }
+
+  showSpinner() {
+    this.spinner.show();
+    setTimeout(() => {
+      this.spinner.hide();
+    }, 3000);
   }
 }
