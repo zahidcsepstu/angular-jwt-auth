@@ -8,9 +8,9 @@ import {AppRoutingModule} from "./app.routing.module.";
 import {authInterceptorProviders} from "./interceptors/auth.interceptor";
 import {FormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
-import {NgxSpinnerModule} from "ngx-spinner";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {responseInterceptorProviders} from "./interceptors/response.interceptor";
+import {NgxSpinnerModule} from "ngx-spinner";
 
 @NgModule({
   declarations: [

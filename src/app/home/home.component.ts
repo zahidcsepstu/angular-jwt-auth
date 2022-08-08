@@ -2,8 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {UserService} from "../_services/user.service";
 import {AuthService} from "../_services/auth.service";
 import {TokenStorageService} from "../_services/token-storage.service";
-import {NgxSpinnerService} from "ngx-spinner";
 import {Router} from "@angular/router";
+import {NgxSpinnerService} from "ngx-spinner";
 
 @Component({
   selector: 'app-home',
