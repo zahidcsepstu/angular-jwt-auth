@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {
   HttpRequest,
   HttpHandler,
@@ -11,7 +11,8 @@ import {NgxSpinnerService} from "ngx-spinner";
 @Injectable()
 export class ResponseInterceptor implements HttpInterceptor {
 
-  constructor(private spinner:NgxSpinnerService) {}
+  constructor(private spinner: NgxSpinnerService) {
+  }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     return next.handle(request).pipe(map((event: HttpEvent<any>) => {
@@ -24,7 +25,10 @@ export class ResponseInterceptor implements HttpInterceptor {
   }
 
   private static modifyBody(body: any) {
-    return body;
+    if (body && body.content)
+      return body.content;
+    else
+      return body;
   }
 }
 
