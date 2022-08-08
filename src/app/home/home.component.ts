@@ -3,6 +3,7 @@ import {UserService} from "../_services/user.service";
 import {AuthService} from "../_services/auth.service";
 import {TokenStorageService} from "../_services/token-storage.service";
 import {NgxSpinnerService} from "ngx-spinner";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-home',
@@ -16,7 +17,8 @@ export class HomeComponent implements OnInit {
     private userService: UserService,
     private authService: AuthService,
     private tokenService: TokenStorageService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private router: Router
   ) {
   }
 
@@ -34,6 +36,7 @@ export class HomeComponent implements OnInit {
   logoutUser() {
     this.authService.logout().subscribe(data => {
       this.tokenService.signOut();
+      this.router.navigate(['/sign-in']);
     });
   }
 

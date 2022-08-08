@@ -3,14 +3,16 @@ import {Injectable} from '@angular/core';
 import {HttpInterceptor, HttpHandler, HttpRequest} from '@angular/common/http';
 import {TokenStorageService} from '../_services/token-storage.service';
 import {Observable} from 'rxjs';
+import {NgxSpinnerService} from "ngx-spinner";
 
 const TOKEN_HEADER_KEY = 'Authorization';
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  constructor(private token: TokenStorageService) {
+  constructor(private token: TokenStorageService, private spinner: NgxSpinnerService) {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    this.spinner.show().then(r => r);
     let authReq = req;
     const token = this.token.getJwtToken();
     if (token != null) {
