@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CI
+name: CI/CD Pipeline
 
 # Controls when the workflow will run
 on:
@@ -25,14 +25,17 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
 
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
+      - name: Install Node
         run: sudo apt install nodejs
 
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
-        run: |
-          export FIREBASE_TOKEN=1//0g3yVb6mL5UwvCgYIARAAGBASNwF-L9IrXgMprABBHuF8EXiNslnyNVweW07oHvR1qIqkg7zP_rgL7NQMK1ubiEPwbJlkNc7I1Yo
-          npm install -g @angular/cli
-          npm install
-          ng deploy
+      - name: Install Angular CLI
+        run: npm install -g @angular/cli
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Export FIREBASE_TOKEN
+        run: export FIREBASE_TOKEN=1//0g3yVb6mL5UwvCgYIARAAGBASNwF-L9IrXgMprABBHuF8EXiNslnyNVweW07oHvR1qIqkg7zP_rgL7NQMK1ubiEPwbJlkNc7I1Yo
+
+      - name: Deploy
+        run: ng deploy
