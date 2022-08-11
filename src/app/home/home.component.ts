@@ -4,6 +4,7 @@ import {AuthService} from "../_services/auth.service";
 import {TokenStorageService} from "../_services/token-storage.service";
 import {Router} from "@angular/router";
 import {NgxSpinnerService} from "ngx-spinner";
+import {NotificationService} from "../_services/notification.service";
 
 @Component({
   selector: 'app-home',
@@ -18,7 +19,8 @@ export class HomeComponent implements OnInit {
     private authService: AuthService,
     private tokenService: TokenStorageService,
     private spinner: NgxSpinnerService,
-    private router: Router
+    private router: Router,
+    private notificationService: NotificationService
   ) {
   }
 
@@ -30,6 +32,7 @@ export class HomeComponent implements OnInit {
     this.taskList = []
     this.userService.getTasks().subscribe(data => {
       this.taskList = data;
+      this.showSuccess();
     })
   }
 
@@ -45,5 +48,18 @@ export class HomeComponent implements OnInit {
     setTimeout(() => {
       this.spinner.hide();
     }, 3000);
+  }
+
+  showSuccess() {
+    this.notificationService.showSuccess("Success");
+  }
+  showWarn() {
+    this.notificationService.showWarn("Warning");
+  }
+  showError() {
+    this.notificationService.showError("Error");
+  }
+  showInfo() {
+    this.notificationService.showInfo("Info");
   }
 }

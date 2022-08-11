@@ -11,6 +11,11 @@ import {HttpClientModule} from "@angular/common/http";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {responseInterceptorProviders} from "./interceptors/response.interceptor";
 import {NgxSpinnerModule} from "ngx-spinner";
+import {ToastModule} from "primeng/toast";
+import {ButtonModule} from "primeng/button";
+import {RippleModule} from "primeng/ripple";
+import {MessageService} from "primeng/api";
+import {errorInterceptorProviders} from "./interceptors/error.interceptor";
 
 @NgModule({
   declarations: [
@@ -24,9 +29,12 @@ import {NgxSpinnerModule} from "ngx-spinner";
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    ToastModule,
+    ButtonModule,
+    RippleModule,
   ],
-  providers: [authInterceptorProviders, responseInterceptorProviders],
+  providers: [authInterceptorProviders, responseInterceptorProviders,errorInterceptorProviders, MessageService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

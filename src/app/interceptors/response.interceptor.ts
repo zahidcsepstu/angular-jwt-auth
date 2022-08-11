@@ -24,6 +24,7 @@ export class ResponseInterceptor implements HttpInterceptor {
     }));
   }
 
+
   private static modifyBody(body: any) {
     if (body && body.content)
       return body.content;
