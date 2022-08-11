@@ -37,5 +37,6 @@ jobs:
       - name: Deploy
         run: |
           export GOOGLE_APPLICATION_CREDENTIALS="/.github/workflows/angular-jwt-auth-zahid-965ed5f1cfe8.json"
+          echo $GOOGLE_APPLICATION_CREDENTIALS
           ng deploy
 
