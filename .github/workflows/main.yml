@@ -36,6 +36,6 @@ jobs:
 
       - name: Deploy
         run: |
-          export FIREBASE_TOKEN=1//0g3yVb6mL5UwvCgYIARAAGBASNwF-L9IrXgMprABBHuF8EXiNslnyNVweW07oHvR1qIqkg7zP_rgL7NQMK1ubiEPwbJlkNc7I1Yo
+          export GOOGLE_APPLICATION_CREDENTIALS=".github/workflows/angular-jwt-auth-zahid-965ed5f1cfe8.json"
           ng deploy
 
