@@ -24,6 +24,10 @@ export class AuthService {
     }, httpOptions);
   }
 
+  refreshToken(refreshToken: string):Observable<any>{
+    return this.http.post(AUTH_API + 'users/token/refresh', {refreshToken})
+  }
+
   logout(): Observable<any> {
     return this.http.post(AUTH_API + 'users/logout', {
       jwtToken: this.tokenService.getJwtToken(),

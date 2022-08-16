@@ -25,8 +25,8 @@ export class NotificationService {
     this.messageService.add({severity: 'error', summary: 'Error', detail: message});
   }
 
-  showTopLeft() {
-    this.messageService.add({key: 'tl', severity: 'info', summary: 'Info', detail: 'Message Content'});
+  showTopLeft(message: string) {
+    this.messageService.add({key: 'tl', severity: 'info', summary: 'Info', detail: message});
   }
 
   showTopCenter() {

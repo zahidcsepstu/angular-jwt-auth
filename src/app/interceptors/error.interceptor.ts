@@ -5,33 +5,77 @@ import {
   HttpEvent,
   HttpHandler,
   HttpInterceptor,
-  HttpRequest
+  HttpRequest, HttpStatusCode
 } from "@angular/common/http";
 import {Router} from "@angular/router";
-import {catchError, Observable, of, throwError} from "rxjs";
+import {catchError, Observable, of, switchMap, throwError} from "rxjs";
 import {NgxSpinnerService} from "ngx-spinner";
 import {NotificationService} from "../_services/notification.service";
+import {AuthService} from "../_services/auth.service";
+import {TokenStorageService} from "../_services/token-storage.service";
+import {TOKEN_HEADER_KEY} from "./auth.interceptor";
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
-  constructor(private router: Router, private notificationService: NotificationService, private spinner: NgxSpinnerService) { }
+  constructor(private router: Router,
+              private notificationService: NotificationService,
+              private spinner: NgxSpinnerService,
+              private authService: AuthService,
+              private tokenService: TokenStorageService,
+  ) {
+  }
 
-  private handleAuthError(err: HttpErrorResponse): Observable<any> {
-    //handle your auth error or rethrow
-    if (err.status === 401 || err.status === 403) {
-      //navigate /delete cookies or whatever
-      this.spinner.hide().then(r => this.notificationService.showError("Unauthorized"));
+  private handleAuthError(error: HttpErrorResponse, req: HttpRequest<any>, next: HttpHandler): Observable<any> {
 
-      // if you've caught / handled the error, you don't want to rethrow it unless you also want downstream consumers to have to handle it as well.
-      return of(err.message); // or EMPTY may be appropriate here
+    if (error.status === 400) {
+      if (error?.error?.errors) {
+        this.notificationService.showError(this.processModelValidationErrorMessages(error));
+      }
+
+      return of(error.message);
     }
-    return throwError(err);
+    if (error.status === HttpStatusCode.Unauthorized) {
+      this.notificationService.showError("Unauthorized");
+      return this.authService.refreshToken(this.tokenService.getRefreshToken()).pipe(
+        switchMap((result: any) => {
+          this.tokenService.saveToken(result.token, result.refreshToken);
+          req = req.clone({headers: req.headers.set(TOKEN_HEADER_KEY, 'Bearer ' + this.tokenService.getJwtToken())});
+          return next.handle(req);
+        }),
+        catchError(err => {
+          this.notificationService.showError("Session expired");
+          this.router.navigate(['/sign-in']).then(r => r);
+          return throwError(() => err)
+        })
+      )
+    }
+    if (error.status === HttpStatusCode.Forbidden) {
+      this.notificationService.showError("Forbidden");
+
+      return of(error.message);
+    }
+
+    if (error.status === HttpStatusCode.InternalServerError) {
+      this.notificationService.showError("Internal server error");
+    }
+
+    return throwError(() => error);
+  }
+
+  private processModelValidationErrorMessages(error: HttpErrorResponse) {
+    const errors = error?.error?.errors || {};
+    let errorMessages = '';
+    let count = 0;
+    Object.keys(errors).map((key: string) => {
+      for (const errorMessage of errors[key]) {
+        errorMessages = errorMessages.concat(++count + ') ' + errorMessage + '\n')
+      }
+    });
+    return errorMessages;
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-
-    // catch the error, make specific functions for catching specific errors and you can chain through them with more catch operators
-    return next.handle(req).pipe(catchError(x=> this.handleAuthError(x))); //here use an arrow function, otherwise you may get "Cannot read property 'navigate' of undefined" on angular 4.4.2/net core 2/webpack 2.70
+    return next.handle(req).pipe(catchError((error: HttpErrorResponse) => this.handleAuthError(error, req, next)));
   }
 }
 

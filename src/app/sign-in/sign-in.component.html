@@ -1,33 +1,3 @@
-
-
-
-
-<!--<form *ngIf="!isLoggedIn" name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm">-->
-<!--  <div style="">-->
-<!--    <label>Username</label>-->
-<!--    -->
-
-<!--  </div>-->
-<!--  <div>-->
-<!--    <label>Password</label>-->
-<!--    <input type="password" name="password" [(ngModel)]="form.password"-->
-<!--           #password="ngModel" />-->
-<!--  </div>-->
-<!--  <div>-->
-<!--    <button>-->
-<!--      Login-->
-<!--    </button>-->
-<!--  </div>-->
-<!--  <div>-->
-<!--    <div *ngIf="f.submitted && isLoginFailed">-->
-<!--      Login failed: {{ errorMessage }}-->
-<!--    </div>-->
-<!--  </div>-->
-<!--</form>-->
-<!--<div *ngIf="isLoggedIn">-->
-<!--  Logged in as {{ roles }}.-->
-<!--</div>-->
-
 <form *ngIf="!isLoggedIn" name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm">
 
   <div class="container">

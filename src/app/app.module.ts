@@ -16,6 +16,7 @@ import {ButtonModule} from "primeng/button";
 import {RippleModule} from "primeng/ripple";
 import {MessageService} from "primeng/api";
 import {errorInterceptorProviders} from "./interceptors/error.interceptor";
+import {loaderInterceptorProviders} from "./interceptors/loader.interceptors";
 
 @NgModule({
   declarations: [
@@ -34,7 +35,7 @@ import {errorInterceptorProviders} from "./interceptors/error.interceptor";
     ButtonModule,
     RippleModule,
   ],
-  providers: [authInterceptorProviders, responseInterceptorProviders,errorInterceptorProviders, MessageService],
+  providers: [authInterceptorProviders, responseInterceptorProviders, errorInterceptorProviders, loaderInterceptorProviders, MessageService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

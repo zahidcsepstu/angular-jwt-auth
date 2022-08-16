@@ -15,7 +15,7 @@ export class TokenStorageService {
     window.sessionStorage.clear();
   }
 
-  public saveToken(jwtToken: string, refreshToken:string): void {
+  public saveToken(jwtToken: string, refreshToken: string): void {
     window.sessionStorage.removeItem(JWT_TOKEN_KEY);
     window.sessionStorage.removeItem(refreshToken);
     window.sessionStorage.setItem(JWT_TOKEN_KEY, jwtToken);
@@ -26,8 +26,8 @@ export class TokenStorageService {
     return window.sessionStorage.getItem(JWT_TOKEN_KEY);
   }
 
-  public getRefreshToken(): string | null {
-    return window.sessionStorage.getItem(REFRESH_TOKEN_KEY);
+  public getRefreshToken(): string {
+    return window.sessionStorage.getItem(REFRESH_TOKEN_KEY) || '';
   }
 
   public saveUser(user: any): void {

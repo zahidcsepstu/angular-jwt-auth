@@ -33,7 +33,7 @@ export class SignInComponent implements OnInit {
       this.isLoggedIn = true;
       this.roles = this.tokenStorage.getUser().roles;
       if (this.isLoggedIn) {
-        this.router.navigate(['/home'])
+        this.router.navigate(['/home']).then(r => r);
       }
     }
   }
@@ -42,15 +42,14 @@ export class SignInComponent implements OnInit {
     const {username, password} = this.form;
     this.authService.login(username, password).subscribe(
       data => {
-        if(data.isAuthenticated){
+        if (data.isAuthenticated) {
           this.tokenStorage.saveToken(data.token, data.refreshToken);
           this.tokenStorage.saveUser(data);
           this.isLoginFailed = false;
           this.isLoggedIn = true;
           this.roles = this.tokenStorage.getUser().roles;
           this.reloadPage();
-        }
-        else {
+        } else {
           this.notificationService.showError("Invalid credentials")
         }
       },
